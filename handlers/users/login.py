@@ -17,9 +17,9 @@ async def register_phone_number(msg: types.Message, state: FSMContext):
     if valid != msg.text:
         await msg.answer(valid)
         return
-    users = db.selects_users(phone_number=msg.text)
+    users = db.selects_users(phone_number=msg.text[1:])
     if users:
-        await state.update_data(phone_number=msg.text)
+        await state.update_data(phone_number=msg.text[1:])
         await msg.answer(login_msg['id_code'][lang])
         await Login.next()
     else:
