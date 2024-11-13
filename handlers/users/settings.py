@@ -70,7 +70,7 @@ async def change_phone(message: types.Message, state: FSMContext):
     if valid != phone:
         await message.answer(valid)
         return
-    db.update_user_by_id(tg_id=message.from_user.id, phone_number2=phone)
+    db.update_user_by_id(tg_id=message.from_user.id, phone_number=phone[1:])
     msg = msg_lang["success_phone"][lang]
     btn = get_main_btn(lang)
     await message.answer(msg, reply_markup=btn)
