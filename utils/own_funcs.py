@@ -7,7 +7,7 @@ from data.translate import msg_lang
 
 from loader import bot
 
-MEDIA_DIR = "/root/cargo_admin/media"
+MEDIA_DIR = "/var/www/cargo_bot-master/root/cargo_admin/media"
 
 def get_idcode():
     var = "".join([str(random.randint(0, 10000) % 10) for _ in range(4)])
@@ -16,7 +16,7 @@ def get_idcode():
 
 async def download_user_passport(file_id):
     file_info = await bot.get_file(file_id)
-    core_path = os.path.join(MEDIA_DIR, "users/passports")
+    core_path = os.path.join(MEDIA_DIR, "/var/www/cargo_bot-master/root/cargo_admin/media/users/passports")
     if not os.path.exists(core_path):
         os.makedirs(core_path)
     file_path = os.path.join(
@@ -48,12 +48,11 @@ async def download_user_image(file_id):
 
 
 def get_passport1():
-    file = "/root/cargo_bot/data/passport1.jpg"
-    return InputFile(file)
+    return InputFile('/var/www/cargo_bot-master/root/cargo_admin/media/users/passports/file_0.jpg')
 
 
 def get_passport2():
-    file = "/root/cargo_bot/data/passport2.jpg"
+    file = "/var/www/cargo_bot-master/root/cargo_admin/media/users/passports/file_1.jpg"
     return InputFile(file)
 
 
