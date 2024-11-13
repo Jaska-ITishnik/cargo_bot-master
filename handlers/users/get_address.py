@@ -8,13 +8,12 @@ from loader import dp, db
 async def get_address(message: types.Message):
     user = db.select_user(tg_id=message.from_user.id)
     print(user)
-    id_code = user[7]
-    d = {
-        'A': 0,
-        'B': 1,
-        'C': 2
-    }
-    d = d[id_code[0]]
-    manzil = manzils[d][user[3]].format(code=id_code[1:])
-    print(manzil)
-    await message.answer(manzil)
+    id_code = user[9]
+    # d = {
+    #     'A': 0,
+    #     'B': 1,
+    #     'C': 2
+    # }
+    for i in list(manzils.values()):
+        await message.answer(i[user[4]].format(code=id_code))
+

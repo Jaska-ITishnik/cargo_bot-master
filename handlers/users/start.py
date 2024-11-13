@@ -27,7 +27,7 @@ async def bot_start(message: types.Message, state: FSMContext):
 
     users = [user[8] for user in db.selects_users(is_active=True)]
     if message.from_user.id in users:
-        user_lang = (db.select_user(tg_id=message.from_user.id))[3]
+        user_lang = (db.select_user(tg_id=message.from_user.id))[4]
         await message.answer(msg_lang['greeting'][user_lang].format(message.from_user.first_name),
                              reply_markup=get_main_btn(user_lang))
     else:

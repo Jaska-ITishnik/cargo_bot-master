@@ -11,7 +11,7 @@ from keyboards.default.main_menu import get_main_btn
 
 @dp.message_handler(lambda msg: "🛍 Shopping" in msg.text)
 async def leave_comment(msg: types.Message):
-    lang = (db.select_user(tg_id=msg.from_user.id))[3]
+    lang = (db.select_user(tg_id=msg.from_user.id))[4]
     msg_txt = msg_lang["shopping_link"][lang]
     btn = cancel_btn(lang)
     await msg.answer(msg_txt, reply_markup=btn)
@@ -21,14 +21,14 @@ async def leave_comment(msg: types.Message):
 @dp.message_handler(state=Shopping.link)
 async def leave_comment(msg: types.Message, state: FSMContext):
     lang = db.select_user(tg_id=msg.from_user.id)
-    btn = get_main_btn(lang[3])
+    btn = get_main_btn(lang[4])
     if msg.text in ("Отмена", "Bekor qilish"):
-        txt = msg_lang["main_menu"][lang[3]]
+        txt = msg_lang["main_menu"][lang[4]]
         await msg.answer(txt, reply_markup=btn)
         await state.finish()
         return
-    btn = cancel_btn(lang[3])
-    msg_txt = msg_lang["shopping_image"][lang[3]]
+    btn = cancel_btn(lang[4])
+    msg_txt = msg_lang["shopping_image"][lang[4]]
     await msg.answer(msg_txt, reply_markup=btn)
     await state.update_data(link=msg.text)
     await Shopping.next()
@@ -41,8 +41,8 @@ async def leave_comment(msg: types.Message, state: FSMContext):
     await state.finish()
     link = data['link']
     photo = msg.photo[-1]['file_id']
-    txt = msg_lang["shopping_end"][lang[3]]
-    await msg.answer(txt, reply_markup=get_main_btn(lang[3]))
+    txt = msg_lang["shopping_end"][lang[4]]
+    await msg.answer(txt, reply_markup=get_main_btn(lang[4]))
     msg_txt = f"<b>ID kod:</b> {lang[7]}\n<b>Ismi:</b> {lang[1]}\n<b>Telefon raqami:</b> {lang[2]}\n\n<b>Tovar havolasi:</b> {link}"
     await bot.send_photo(OPERATOR, photo, msg_txt)
 
@@ -50,12 +50,12 @@ async def leave_comment(msg: types.Message, state: FSMContext):
 @dp.message_handler(state=Shopping.image)
 async def leave_comment(msg: types.Message, state: FSMContext):
     lang = db.select_user(tg_id=msg.from_user.id)
-    btn = get_main_btn(lang[3])
+    btn = get_main_btn(lang[4])
     if msg.text in ("Отмена", "Bekor qilish"):
-        txt = msg_lang["main_menu"][lang[3]]
+        txt = msg_lang["main_menu"][lang[4]]
         await msg.answer(txt, reply_markup=btn)
         await state.finish()
         return
-    btn = cancel_btn(lang[3])
-    txt = msg_lang["shopping_image_err"][lang[3]]
+    btn = cancel_btn(lang[4])
+    txt = msg_lang["shopping_image_err"][lang[4]]
     await msg.answer(txt, reply_markup=btn)
