@@ -20,7 +20,7 @@ async def download_user_passport(file_id):
     if not os.path.exists(core_path):
         os.makedirs(core_path)
     file_path = os.path.join(
-        MEDIA_DIR, "users/passports", file_info.file_path.split("/")[1]
+        MEDIA_DIR, "/var/www/cargo_bot-master/root/cargo_admin/media/users/passports", file_info.file_path.split("/")[1]
     )
     image_path = file_info.file_path
     file = await bot.download_file(image_path)
@@ -29,22 +29,22 @@ async def download_user_passport(file_id):
     with open(file_path, "wb") as new_file:
         f = new_file.write(file.read())
         print(f)
-    return os.path.join("users/passports", file_info.file_path.split("/")[1])
+    return os.path.join("/var/www/cargo_bot-master/root/cargo_admin/media/users/passports", file_info.file_path.split("/")[1])
 
 
 async def download_user_image(file_id):
     file_info = await bot.get_file(file_id)
-    core_path = os.path.join(MEDIA_DIR, "users/image")
+    core_path = os.path.join(MEDIA_DIR, "/var/www/cargo_bot-master/root/cargo_admin/media/users/image")
     if not os.path.exists(core_path):
         os.makedirs(core_path)
     file_path = os.path.join(
-        MEDIA_DIR, "users/image", file_info.file_path.split("/")[1]
+        MEDIA_DIR, "/var/www/cargo_bot-master/root/cargo_admin/media/users/image", file_info.file_path.split("/")[1]
     )
     image_path = file_info.file_path
     file = await bot.download_file(image_path)
     with open(file_path, "wb") as new_file:
         new_file.write(file.read())
-    return os.path.join("users/image", file_info.file_path.split("/")[1])
+    return os.path.join("/var/www/cargo_bot-master/root/cargo_admin/media/users/image", file_info.file_path.split("/")[1])
 
 
 def get_passport1():
