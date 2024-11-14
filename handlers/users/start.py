@@ -25,9 +25,9 @@ async def bot_start(message: types.Message, state: FSMContext):
         f"•~•~•~•~•~•~•~•~•~\n\n"
         f"Привет,  ! Добро пожаловать в официальный бот FAD Cargo - Доставка из Китая!")
 
-    users = [user[8] for user in db.selects_users(is_active=True)]
+    users = [user['tg_id'] for user in db.selects_users(is_active=True)]
     if message.from_user.id in users:
-        user_lang = (db.select_user(tg_id=message.from_user.id))[4]
+        user_lang = (db.select_user(tg_id=message.from_user.id))['lang']
         await message.answer(msg_lang['greeting'][user_lang].format(message.from_user.first_name),
                              reply_markup=get_main_btn(user_lang))
     else:

@@ -207,6 +207,7 @@ btn_lang = {
     "login": {"uz": "📥 Kirish", "ru": "📥 Войти"},
     "main_menu": {
         "trek_code": {"uz": "🔎 Trek kodini tekshirish", "ru": "🔎 Проверка трек-кода"},
+        "admin_panel": {"uz": "↩ Adminkaga kirish", "ru": "↩ Войти в админку"},
         "my_bill": {"uz": "💰 Mening hisobim", "ru": "💰 Мой счет"},
         "settings": {"uz": "⚙️ Sozlamalar", "ru": "⚙️ Настройки"},
         "buy_yuan": {"uz": "💳 Yuan sotib olish", "ru": "💳 Купить юань"},

@@ -12,14 +12,14 @@ from utils.own_funcs import valid_phone
 
 @dp.message_handler(lambda msg: "⚙️" in msg.text)
 async def edit_settings(message: types.Message):
-    lang = (db.select_user(tg_id=message.from_user.id))[4]
+    lang = (db.select_user(tg_id=message.from_user.id))['lang']
     msg = msg_lang["settings"][lang]
     await message.answer(msg, reply_markup=settings_btn(lang))
 
 
 @dp.callback_query_handler(lambda query: query.data.startswith("change"))
 async def change_settings(callback: types.CallbackQuery):
-    lang = (db.select_user(tg_id=callback.from_user.id))[4]
+    lang = (db.select_user(tg_id=callback.from_user.id))['lang']
     sep = callback.data.split("_")[1]
     if sep == "cancel":
         txt = msg_lang["main_menu"][lang]
@@ -43,8 +43,8 @@ async def change_lang(callback: types.CallbackQuery):
     sep = callback.data.split("_")[1]
     lang = db.select_user(tg_id=callback.from_user.id)
     if sep == "cancel":
-        txt = msg_lang["main_menu"][lang[4]]
-        btn = get_main_btn(lang[4])
+        txt = msg_lang["main_menu"][lang['lang']]
+        btn = get_main_btn(lang['lang'])
         await callback.message.delete()
         await callback.message.answer(txt, reply_markup=btn)
     else:
@@ -59,7 +59,7 @@ async def change_lang(callback: types.CallbackQuery):
 async def change_phone(message: types.Message, state: FSMContext):
     await state.finish()
     phone = message.text
-    lang = (db.select_user(tg_id=message.from_user.id))[4]
+    lang = (db.select_user(tg_id=message.from_user.id))['lang']
     if phone in ("Отмена", "Bekor qilish"):
         txt = msg_lang["main_menu"][lang]
         btn = get_main_btn(lang)
