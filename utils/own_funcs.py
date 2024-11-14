@@ -7,7 +7,55 @@ from data.translate import msg_lang
 
 from loader import bot
 
-MEDIA_DIR = "/var/www/cargo_bot-master/root/cargo_admin/media"
+# MEDIA_DIR = "/var/www/cargo_bot-master/root/cargo_admin/media"
+#
+# def get_idcode():
+#     var = "".join([str(random.randint(0, 10000) % 10) for _ in range(4)])
+#     return var
+#
+#
+# async def download_user_passport(file_id):
+#     file_info = await bot.get_file(file_id)
+#     core_path = os.path.join(MEDIA_DIR, "/var/www/cargo_bot-master/root/cargo_admin/media/users/passports")
+#     if not os.path.exists(core_path):
+#         os.makedirs(core_path)
+#     file_path = os.path.join(
+#         MEDIA_DIR, "/var/www/cargo_bot-master/root/cargo_admin/media/users/passports", file_info.file_path.split("/")[1]
+#     )
+#     image_path = file_info.file_path
+#     file = await bot.download_file(image_path)
+#     print(file)
+#
+#     with open(file_path, "wb") as new_file:
+#         f = new_file.write(file.read())
+#         print(f)
+#     return os.path.join("/var/www/cargo_bot-master/root/cargo_admin/media/users/passports", file_info.file_path.split("/")[1])
+#
+#
+# async def download_user_image(file_id):
+#     file_info = await bot.get_file(file_id)
+#     core_path = os.path.join(MEDIA_DIR, "/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media/users/image")
+#     if not os.path.exists(core_path):
+#         os.makedirs(core_path)
+#     file_path = os.path.join(
+#         MEDIA_DIR, "/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media/users/image", file_info.file_path.split("/")[1]
+#     )
+#     image_path = file_info.file_path
+#     file = await bot.download_file(image_path)
+#     with open(file_path, "wb") as new_file:
+#         new_file.write(file.read())
+#     return os.path.join("/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media/users/image", file_info.file_path.split("/")[1])
+#
+#
+# def get_passport1():
+#     return InputFile('/var/www/cargo_bot-master/root/cargo_admin/media/users/passports/file_0.jpg')
+#
+#
+# def get_passport2():
+#     file = "/var/www/cargo_bot-master/root/cargo_admin/media/users/passports/file_1.jpg"
+#     return InputFile(file)
+
+MEDIA_DIR = "/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media"
 
 def get_idcode():
     var = "".join([str(random.randint(0, 10000) % 10) for _ in range(4)])
@@ -16,11 +64,11 @@ def get_idcode():
 
 async def download_user_passport(file_id):
     file_info = await bot.get_file(file_id)
-    core_path = os.path.join(MEDIA_DIR, "/var/www/cargo_bot-master/root/cargo_admin/media/users/passports")
+    core_path = os.path.join(MEDIA_DIR, "/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media/users/passports")
     if not os.path.exists(core_path):
         os.makedirs(core_path)
     file_path = os.path.join(
-        MEDIA_DIR, "/var/www/cargo_bot-master/root/cargo_admin/media/users/passports", file_info.file_path.split("/")[1]
+        MEDIA_DIR, "/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media/users/passports", file_info.file_path.split("/")[1]
     )
     image_path = file_info.file_path
     file = await bot.download_file(image_path)
@@ -29,32 +77,31 @@ async def download_user_passport(file_id):
     with open(file_path, "wb") as new_file:
         f = new_file.write(file.read())
         print(f)
-    return os.path.join("/var/www/cargo_bot-master/root/cargo_admin/media/users/passports", file_info.file_path.split("/")[1])
+    return os.path.join("/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media/users/passports", file_info.file_path.split("/")[1])
 
 
 async def download_user_image(file_id):
     file_info = await bot.get_file(file_id)
-    core_path = os.path.join(MEDIA_DIR, "/var/www/cargo_bot-master/root/cargo_admin/media/users/image")
+    core_path = os.path.join(MEDIA_DIR, "/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media/users/image")
     if not os.path.exists(core_path):
         os.makedirs(core_path)
     file_path = os.path.join(
-        MEDIA_DIR, "/var/www/cargo_bot-master/root/cargo_admin/media/users/image", file_info.file_path.split("/")[1]
+        MEDIA_DIR, "/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media/users/image", file_info.file_path.split("/")[1]
     )
     image_path = file_info.file_path
     file = await bot.download_file(image_path)
     with open(file_path, "wb") as new_file:
         new_file.write(file.read())
-    return os.path.join("/var/www/cargo_bot-master/root/cargo_admin/media/users/image", file_info.file_path.split("/")[1])
+    return os.path.join("/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media/users/image", file_info.file_path.split("/")[1])
 
 
 def get_passport1():
-    return InputFile('/var/www/cargo_bot-master/root/cargo_admin/media/users/passports/file_0.jpg')
+    return InputFile('/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media/users/passports/file_0.jpg')
 
 
 def get_passport2():
-    file = "/var/www/cargo_bot-master/root/cargo_admin/media/users/passports/file_1.jpg"
+    file = "/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media/users/passports/file_1.jpg"
     return InputFile(file)
-
 
 def valid_phone(phone_number: str, lang: str) -> str:
     if len(phone_number) != 13:

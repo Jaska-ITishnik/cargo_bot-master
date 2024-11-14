@@ -7,6 +7,6 @@ from loader import dp, db
 
 @dp.message_handler(lambda message: '💳' in message.text)
 async def trek_code(message: types.Message):
-    lang = (db.select_user(tg_id=message.from_user.id))[4]
+    lang = (db.select_user(tg_id=message.from_user.id))['lang']
     msg = msg_lang['buy_yuan'][lang]
     await message.answer(msg, reply_markup=buy_yuan(lang))
