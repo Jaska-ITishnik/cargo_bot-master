@@ -103,6 +103,7 @@ def get_passport2():
 #     file = "/home/jasurbek/PycharmProjects/cargo_bot-master/root/cargo_admin/media/users/passports/file_1.jpg"
 #     return InputFile(file)
 
+
 def valid_phone(phone_number: str, lang: str) -> str:
     if len(phone_number) != 13:
         return f"{msg_lang['phone_number_checking']['all_exc'][lang]}\n{msg_lang['phone_number_checking']['example'][lang]}"
