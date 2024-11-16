@@ -31,15 +31,10 @@ async def trek_code(msg: types.Message):
 @dp.message_handler(lambda x: x.text in ("↩ Войти в админку", "↩ Adminkaga kirish"))
 async def admin_panel(msg: types.Message):
     # Create an inline keyboard with a Web App URL button
-    keyboard = InlineKeyboardMarkup()
-    anounce = 'Открыть панель администратора' if msg.text.endswith('админку') else 'Administrator panelini oching'
-    button = InlineKeyboardButton(
-        text=f"{anounce}",
-        web_app=WebAppInfo(url="https://217.77.4.131:8004/admin/")
-    )
-    keyboard.add(button)
-
-    await msg.answer("ADMIN APP", reply_markup=keyboard)
+    ikb = InlineKeyboardMarkup()
+    button = InlineKeyboardButton('ADMINKA', url="http://217.77.4.131:8008/admin/")
+    await msg.answer('👇', reply_markup=ikb.add(button))
+    await msg.delete()
 
 
 @dp.message_handler(state=Trek_code.code)
