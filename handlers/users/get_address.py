@@ -1,6 +1,8 @@
 from aiogram import types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from magic_filter import F
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, CallbackQuery
+from magic_filter import F
 
 from data.translate import manzils, btn_lang, msg_lang
 from loader import dp, db
@@ -17,7 +19,6 @@ async def get_address(message: types.Message):
     )
     buttons = ikb
     await message.answer(msg_lang['address_description'][user['lang']], reply_markup=buttons)
-
 
 @dp.callback_query_handler((F.data == '_AVIA✈') | (F.data == '_AVTO🚛'))
 async def check_address(callback: CallbackQuery):
