@@ -32,5 +32,8 @@ def change_lang_btn(lang):
 
 def buy_yuan(lang):
     res = InlineKeyboardMarkup(row_width=1)
-    res.insert(InlineKeyboardButton(btn_lang['buy_yuan'][lang], url=YUAN_BOT))
+    res.insert(InlineKeyboardButton("""
+                    Texnik sabablarga ko'ra 
+                    YUAN bot ishlamayapti 👷
+                    """))
     return res
