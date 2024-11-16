@@ -1,8 +1,8 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.types import ContentType, ReplyKeyboardRemove
+from aiogram.types import ContentType, InlineKeyboardMarkup, InlineKeyboardButton
 
-from data.translate import msg_lang, manzils, allows
+from data.translate import msg_lang, btn_lang
 from keyboards.default.main_menu import get_main_btn
 from keyboards.default.register_btn import send_phone, send_location
 from keyboards.inline.register import phone_number2
@@ -127,20 +127,7 @@ async def register_passport1(msg: types.Message, state: FSMContext):
 @dp.message_handler(state=CreateUser.address, content_types=ContentType.LOCATION)
 async def register_address(msg: types.Message, state: FSMContext):
     await state.update_data(latitude=msg.location.latitude, longitude=msg.location.longitude)
-    lang = (await state.get_data())['lang']
-    await msg.answer(register_lang['manzil'][lang], reply_markup=ReplyKeyboardRemove())
-    manz = {
-        0: 'A',
-        1: 'B',
-        2: 'C'
-    }
     id_code = get_idcode()
-    for manzil in manzils:
-        code = manz[manzil] + id_code
-        m = manzils[manzil][lang].format(code=code[1:]) + '\n\n\n' + '<b>' + msg_lang['allow'][
-            lang].upper() + '</b>' + '\n\n' + allows[manzil][
-                lang]
-        await msg.answer(m)
 
     data = await state.get_data()
     await state.finish()
@@ -192,8 +179,18 @@ async def register_address(msg: types.Message, state: FSMContext):
             referal_id=None,
             types="A"
         )
+
     await msg.answer(msg_lang['greeting'][lang].format(msg.from_user.first_name),
                      reply_markup=get_main_btn(lang, msg))
+    user = db.select_user(tg_id=msg.from_user.id)
+    print(user)
+    ikb = InlineKeyboardMarkup()
+    ikb.row(
+        InlineKeyboardButton(text=btn_lang['address_type']['avto'][user['lang']], callback_data='_AVTO🚛'),
+        InlineKeyboardButton(text=btn_lang['address_type']['avia'][user['lang']], callback_data='_AVIA✈')
+    )
+    buttons = ikb
+    await msg.answer(text=msg_lang['register']['manzil'][user['lang']], reply_markup=buttons)
 
 
 @dp.message_handler(state=CreateUser.address)
