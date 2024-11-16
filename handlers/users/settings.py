@@ -23,7 +23,7 @@ async def change_settings(callback: types.CallbackQuery):
     sep = callback.data.split("_")[1]
     if sep == "cancel":
         txt = msg_lang["main_menu"][lang]
-        btn = get_main_btn(lang)
+        btn = get_main_btn(lang, callback)
         await callback.message.delete()
         await callback.message.answer(txt, reply_markup=btn)
     elif sep == "lang":
@@ -44,13 +44,13 @@ async def change_lang(callback: types.CallbackQuery):
     lang = db.select_user(tg_id=callback.from_user.id)
     if sep == "cancel":
         txt = msg_lang["main_menu"][lang['lang']]
-        btn = get_main_btn(lang['lang'])
+        btn = get_main_btn(lang['lang'], callback)
         await callback.message.delete()
         await callback.message.answer(txt, reply_markup=btn)
     else:
         db.update_user_by_id(tg_id=callback.from_user.id, lang=sep)
         msg = msg_lang["success_lang"][sep]
-        btn = get_main_btn(sep)
+        btn = get_main_btn(sep, callback)
         await callback.message.delete()
         await callback.message.answer(msg, reply_markup=btn)
 
@@ -62,7 +62,7 @@ async def change_phone(message: types.Message, state: FSMContext):
     lang = (db.select_user(tg_id=message.from_user.id))['lang']
     if phone in ("Отмена", "Bekor qilish"):
         txt = msg_lang["main_menu"][lang]
-        btn = get_main_btn(lang)
+        btn = get_main_btn(lang, message)
         await message.answer(txt, reply_markup=btn)
         await state.finish()
         return
@@ -72,5 +72,5 @@ async def change_phone(message: types.Message, state: FSMContext):
         return
     db.update_user_by_id(tg_id=message.from_user.id, phone_number=phone[1:])
     msg = msg_lang["success_phone"][lang]
-    btn = get_main_btn(lang)
+    btn = get_main_btn(lang, message)
     await message.answer(msg, reply_markup=btn)

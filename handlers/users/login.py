@@ -34,7 +34,7 @@ async def register_phone_number(msg: types.Message, state: FSMContext):
     lang = (await state.get_data())['lang']
     if users:
         db.update_user(data['phone_number'], is_active=True, tg_id=msg.from_user.id)
-        await msg.answer(msg_lang['greeting'][lang].format(msg.from_user.first_name), reply_markup=get_main_btn(lang))
+        await msg.answer(msg_lang['greeting'][lang].format(msg.from_user.first_name), reply_markup=get_main_btn(lang, msg))
     else:
         await msg.answer(login_msg['error_idcode'][lang])
     await state.finish()

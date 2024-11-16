@@ -3,10 +3,10 @@ from aiogram.dispatcher import FSMContext
 
 from data.config import OPERATOR
 from data.translate import msg_lang
-from loader import dp, db, bot
-from states.shopping import Shopping
 from keyboards.default.cancel import cancel_btn
 from keyboards.default.main_menu import get_main_btn
+from loader import dp, db, bot
+from states.shopping import Shopping
 
 
 @dp.message_handler(lambda msg: "🛍 Shopping" in msg.text)
@@ -21,7 +21,7 @@ async def leave_comment(msg: types.Message):
 @dp.message_handler(state=Shopping.link)
 async def leave_comment(msg: types.Message, state: FSMContext):
     lang = db.select_user(tg_id=msg.from_user.id)
-    btn = get_main_btn(lang['lang'])
+    btn = get_main_btn(lang['lang'], msg)
     if msg.text in ("Отмена", "Bekor qilish"):
         txt = msg_lang["main_menu"][lang['lang']]
         await msg.answer(txt, reply_markup=btn)
@@ -42,7 +42,7 @@ async def leave_comment(msg: types.Message, state: FSMContext):
     link = data['link']
     photo = msg.photo[-1]['file_id']
     txt = msg_lang["shopping_end"][lang['lang']]
-    await msg.answer(txt, reply_markup=get_main_btn(lang['lang']))
+    await msg.answer(txt, reply_markup=get_main_btn(lang['lang'], msg))
     msg_txt = f"<b>ID kod:</b> {lang['id_code']}\n<b>Ismi:</b> {lang['full_name']}\n<b>Telefon raqami:</b> {lang['phone_number']}\n\n<b>Tovar havolasi:</b> {link}"
     await bot.send_photo(OPERATOR, photo, msg_txt)
 
@@ -50,7 +50,7 @@ async def leave_comment(msg: types.Message, state: FSMContext):
 @dp.message_handler(state=Shopping.image)
 async def leave_comment(msg: types.Message, state: FSMContext):
     lang = db.select_user(tg_id=msg.from_user.id)
-    btn = get_main_btn(lang['lang'])
+    btn = get_main_btn(lang['lang'], msg)
     if msg.text in ("Отмена", "Bekor qilish"):
         txt = msg_lang["main_menu"][lang['lang']]
         await msg.answer(txt, reply_markup=btn)

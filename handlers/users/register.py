@@ -4,9 +4,9 @@ from aiogram.types import ContentType, ReplyKeyboardRemove
 
 from data.translate import msg_lang, manzils, allows
 from keyboards.default.main_menu import get_main_btn
-from keyboards.default.register_btn import send_phone, send_location, choose_manzil
+from keyboards.default.register_btn import send_phone, send_location
 from keyboards.inline.register import phone_number2
-from loader import dp, db, bot
+from loader import dp, db
 from states.register import CreateUser, Login, ChooseLang
 from utils.own_funcs import get_idcode, download_user_passport, valid_phone, download_user_image, get_passport1, \
     get_passport2
@@ -193,7 +193,7 @@ async def register_address(msg: types.Message, state: FSMContext):
             types="A"
         )
     await msg.answer(msg_lang['greeting'][lang].format(msg.from_user.first_name),
-                     reply_markup=get_main_btn(lang))
+                     reply_markup=get_main_btn(lang, msg))
 
 
 @dp.message_handler(state=CreateUser.address)

@@ -1,7 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
 from data.translate import btn_lang
-from utils.own_funcs import get_idcode
 
 
 def send_phone(lang):

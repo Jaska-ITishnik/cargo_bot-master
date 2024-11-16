@@ -2,9 +2,8 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.builtin import CommandStart
 
-from data.translate import msg_lang, allows
+from data.translate import msg_lang
 from keyboards.default.main_menu import get_main_btn
-from keyboards.default.register_btn import choose_manzil
 from keyboards.inline.choose_lang import langs
 from keyboards.inline.register import register_btn
 from loader import dp, db
@@ -29,7 +28,7 @@ async def bot_start(message: types.Message, state: FSMContext):
     if message.from_user.id in users:
         user_lang = (db.select_user(tg_id=message.from_user.id))['lang']
         await message.answer(msg_lang['greeting'][user_lang].format(message.from_user.first_name),
-                             reply_markup=get_main_btn(user_lang))
+                             reply_markup=get_main_btn(user_lang, message))
     else:
         msg += "\n\n🇺🇿 Tilni tanlang\n🇷🇺 Выберите язык"
         await message.answer(msg, reply_markup=langs)
