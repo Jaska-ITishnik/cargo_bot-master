@@ -136,7 +136,7 @@ async def register_address(msg: types.Message, state: FSMContext):
     phone_number = data['phone_number']
     phone_number2 = data.get('phone_number2', None)
     passport1 = data['passport1']
-    passport2 = data['passport2']
+    passport2 = data.get('passport2', '')
     image = data['image']
     latitude = data['latitude']
     longitude = data['longitude']
