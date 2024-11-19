@@ -76,7 +76,7 @@ async def code_ans(msg: types.Message, state=FSMContext):
         await state.finish()
         return
     all_trek_codes_from_db = db.select_product_trek_code(user_id=lang['id'])[0]['trek_code']
-    # trek_codes_list = [i[0] for i in all_trek_codes_from_db]
+    trek_codes_list = [i[0] for i in all_trek_codes_from_db]
     if msg.text in all_trek_codes_from_db:
         is_arrived_or_is_taken = db.select_product_arrive_taken(trek_code=msg.text)
         if (is_arrived_or_is_taken[0]['is_arrived'] and is_arrived_or_is_taken[0]['is_taken']) and True:
