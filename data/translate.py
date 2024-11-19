@@ -212,6 +212,7 @@ btn_lang = {
     "main_menu": {
         "trek_code": {"uz": "🔎 Trek kodini tekshirish", "ru": "🔎 Проверка трек-кода"},
         "admin_panel": {"uz": "↩ Adminkaga kirish", "ru": "↩ Войти в админку"},
+        "admin_send_message": {"uz": "📨 Xabar yuborish", "ru": "📨 Отправить сообщение"},
         "my_bill": {"uz": "💰 Mening hisobim", "ru": "💰 Мой счет"},
         "settings": {"uz": "⚙️ Sozlamalar", "ru": "⚙️ Настройки"},
         "buy_yuan": {"uz": "💳 Yuan sotib olish", "ru": "💳 Купить юань"},
@@ -249,39 +250,45 @@ btn_lang = {
         }
     }
 }
+# address_options = list(Database().select_address_options())[0]
+# period_avia = address_options['period_avia']
+# period_avto = address_options['period_avto']
+# phone_number = address_options['phone_number']
+# mail_address = address_options['mail_address']
+# address = address_options['address']
 
 manzils = {
     'avia': {
         'uz': """
-Avia 1-15 kun 
-电话：17800293735                                       
-邮编: 100024 
-详细地址: 北京市朝阳区定福景园7号楼3单元1002 (AVIA{code})  
+Avia {period_avia} kun 
+电话：{phone_number}                                       
+邮编: {mail_address} 
+详细地址: {address} {phone_number} (AVIA{code})  
 收货人： (AVIA{code})
-联系方式 17800293735
         """,
         'ru': """
-Aвиа Экспресс 1-15 дней
-电话：17800293735                                       
-邮编: 100024 
-详细地址: 北京市朝阳区定福景园7号楼3单元1002 (АВИА{code})  
+Aвиа Экспресс {period_avia} дней
+电话：{phone_number}                                       
+邮编: {mail_address} 
+详细地址: {address} {phone_number} (АВИА{code})  
 收货人： (АВИА{code})
-联系方式 17800293735
         """,
     },
     'avto': {
 
         'uz': """
-Avto Caro  15-25 kun
-北京市门头沟区门头沟黑山A4区2号楼2单元17层1703 (АВТО{code})
+Avto Caro {period_avto}  kun
+邮编: {mail_address} 
+详细地址: {address} (АВТО{code})
 收货人：АВТО({code})
-联系方式 17800293735
+联系方式 {phone_number}
         """,
         'ru': """
-Авто Каро 15-25 день
-北京市门头沟区门头沟黑山A4区2号楼2单元17层1703 (AVTO{code})
+Авто Каро {period_avto} день
+邮编: {mail_address}
+详细地址: {address} (AVTO{code})
 收货人：AVTO({code})
-联系方式 17800293735
+联系方式 {phone_number}
         """
     }
 }

@@ -369,6 +369,12 @@ class Database:
         parameters = (tg_id, referal_id)
         return self.execute(sql, parameters=parameters, commit=True)
 
+    def select_address_options(self):
+        sql = """
+                SELECT * FROM app_address
+                """
+        return self.execute(sql, fetchall=True)
+
 
 def logger(statement):
     print(

@@ -1,15 +1,16 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, ContentType
 from environs import Env
 
-from data.config import OPERATOR
+from data.config import OPERATOR, ADMINS
 from data.translate import msg_lang
 from keyboards.default.cancel import cancel_btn
 from keyboards.default.deliver import deliver_or_not
 from keyboards.default.main_menu import get_main_btn
 from keyboards.default.register_btn import send_location
 from loader import dp, db, bot
+from states.send_message_admin import AdminSendMessage
 from states.trek_code import Trek_code
 
 env = Env()
@@ -36,6 +37,33 @@ async def admin_panel(msg: types.Message):
     button = InlineKeyboardButton('ADMINKA', url="http://217.77.4.131:8008/admin/")
     await msg.answer('👇', reply_markup=ikb.add(button))
     await msg.delete()
+
+
+@dp.message_handler(lambda x: x.text in ("📨 Xabar yuborish", "📨 Отправить сообщение"))
+async def admin_send_message(msg: Message, state: FSMContext):
+    if str(msg.from_user.id) in ADMINS:
+        await state.set_state(AdminSendMessage.message)
+        await msg.answer(f"{msg.from_user.first_name} xabarni yuborishingiz mumkin")
+    else:
+        await msg.answer("Kechirasiz xabarni faqat adminlar yuboraoladi🤙")
+
+
+@dp.message_handler(content_types=[ContentType.TEXT, ContentType.PHOTO, ContentType.VIDEO],
+                    state=AdminSendMessage.message)
+async def admin_send_message_state(msg: Message, state: FSMContext):
+    await state.update_data(message=msg.text)
+    data = await state.get_data()
+    users = db.select_all_users()
+    for user in users:
+        if str(user['tg_id']) not in ADMINS:
+            if msg.photo:
+                await msg.bot.send_photo(chat_id=user['tg_id'], photo=msg.photo[0].file_id, caption=msg.caption)
+            if msg.video:
+                await msg.bot.send_video(chat_id=user['tg_id'], video=msg.video.file_id, caption=msg.caption)
+            else:
+                if data.get('message'):
+                    await msg.bot.send_message(chat_id=user['tg_id'], text=data['message'])
+    await msg.answer("Yana xabar yuborish qayta /start qilib xabar yuboring")
 
 
 @dp.message_handler(state=Trek_code.code)
