@@ -22,21 +22,26 @@ async def get_address(message: types.Message):
 
 @dp.callback_query_handler((F.data == '_AVIA✈') | (F.data == '_AVTO🚛'))
 async def check_address(callback: CallbackQuery):
-    address_options = list(Database().select_address_options())[0]
-    period_avia = address_options['period_avia']
-    period_avto = address_options['period_avto']
-    phone_number = address_options['phone_number']
-    mail_address = address_options['mail_address']
-    address = address_options['address']
     user = db.select_user(tg_id=callback.from_user.id)
     id_code = user['id_code']
+    address_options = list(Database().select_address_options())
+    avia_address_msg = ''
+    avto_address_msg = ''
+    for address_option in address_options:
+        period_avia = address_option['period_avia']
+        period_avto = address_option['period_avto']
+        phone_number = address_option['phone_number']
+        mail_address = address_option['mail_address']
+        address = address_option['address']
+        avia_address_msg += f"""{manzils['avia'][user['lang']].format(code=id_code, period_avia=period_avia,
+                                                                      phone_number=phone_number,
+                                                                      mail_address=mail_address, address=address)}\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"""
+        avto_address_msg += f"""{manzils['avto'][user['lang']].format(code=id_code, period_avto=period_avto,
+                                                                      phone_number=phone_number,
+                                                                      mail_address=mail_address, address=address)}\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"""
     if callback.data == '_AVIA✈':
         await callback.message.delete()
-        await callback.message.answer(
-            manzils['avia'][user['lang']].format(code=id_code, period_avia=period_avia, phone_number=phone_number,
-                                                 mail_address=mail_address, address=address))
+        await callback.message.answer(text=avia_address_msg)
     else:
         await callback.message.delete()
-        await callback.message.answer(
-            manzils['avto'][user['lang']].format(code=id_code, period_avto=period_avto, phone_number=phone_number,
-                                                 mail_address=mail_address, address=address))
+        await callback.message.answer(text=avto_address_msg)
