@@ -1,6 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, ContentType
+from aiogram.utils.exceptions import UserDeactivated
 from environs import Env
 
 from data.config import OPERATOR, ADMINS
@@ -56,13 +57,18 @@ async def admin_send_message_state(msg: Message, state: FSMContext):
     users = db.select_all_users()
     for user in users:
         if str(user['tg_id']) not in ADMINS:
-            if msg.photo:
-                await msg.bot.send_photo(chat_id=user['tg_id'], photo=msg.photo[0].file_id, caption=msg.caption)
-            if msg.video:
-                await msg.bot.send_video(chat_id=user['tg_id'], video=msg.video.file_id, caption=msg.caption)
-            else:
-                if data.get('message'):
-                    await msg.bot.send_message(chat_id=user['tg_id'], text=data['message'])
+            try:
+                if msg.photo:
+                    await msg.bot.send_photo(chat_id=user['tg_id'], photo=msg.photo[0].file_id, caption=msg.caption)
+                if msg.video:
+                    await msg.bot.send_video(chat_id=user['tg_id'], video=msg.video.file_id, caption=msg.caption)
+                else:
+                    if data.get('message'):
+                        await msg.bot.send_message(chat_id=user['tg_id'], text=data['message'])
+            except UserDeactivated:
+                print(f"User with tg_id {user['tg_id']} is deactivated.")
+            except Exception as e:
+                print(f"An error occurred: {e}")
     await msg.answer("Yana xabar yuborish qayta /start qilib xabar yuboring")
 
 
