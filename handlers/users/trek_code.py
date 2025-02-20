@@ -1,7 +1,6 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, ContentType
-from aiogram.utils.exceptions import UserDeactivated
 from environs import Env
 
 from data.config import OPERATOR, ADMINS
@@ -11,6 +10,7 @@ from keyboards.default.deliver import deliver_or_not
 from keyboards.default.main_menu import get_main_btn
 from keyboards.default.register_btn import send_location
 from loader import dp, db, bot
+from send_message_users import send_message_to_all_clients
 from states.send_message_admin import AdminSendMessage
 from states.trek_code import Trek_code
 
@@ -55,21 +55,20 @@ async def admin_send_message_state(msg: Message, state: FSMContext):
     await state.update_data(message=msg.text)
     data = await state.get_data()
     users = db.select_all_users()
-    for user in users:
-        if str(user['tg_id']) not in ADMINS:
-            try:
-                if msg.photo:
-                    await msg.bot.send_photo(chat_id=user['tg_id'], photo=msg.photo[0].file_id, caption=msg.caption)
-                if msg.video:
-                    await msg.bot.send_video(chat_id=user['tg_id'], video=msg.video.file_id, caption=msg.caption)
-                else:
-                    if data.get('message'):
-                        await msg.bot.send_message(chat_id=user['tg_id'], text=data['message'])
-            except UserDeactivated:
-                print(f"User with tg_id {user['tg_id']} is deactivated.")
-            except Exception as e:
-                print(f"An error occurred: {e}")
-    await msg.answer("Yana xabar yuborish qayta /start qilib xabar yuboring")
+    count = 0
+    # try:
+    #     for user_id in get_users():
+    #         if await send_message(user_id, '<b>Hello!</b>'):
+    #             count += 1
+    #         await asyncio.sleep(.05)  # 20 messages per second (Limit: 30 messages per second)
+    # finally:
+    #     log.info(f"{count} messages successful sent.")
+    try:
+        for user in users:
+            if str(user['tg_id']) not in ADMINS:
+                await send_message_to_all_clients(user, msg, data)
+    finally:
+        await msg.answer("Yana xabar yuborish qayta /start qilib xabar yuboring")
 
 
 @dp.message_handler(state=Trek_code.code)
