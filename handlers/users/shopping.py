@@ -9,7 +9,7 @@ from loader import dp, db, bot
 from states.shopping import Shopping
 
 
-@dp.message_handler(lambda msg: "🛍 Shopping" in msg.text)
+@dp.message_handler(lambda msg: msg.text in ("🛍 Shopping", "🛍 Xarid qilish", "🛍 Покупать", "🛍 购物"))
 async def leave_comment(msg: types.Message):
     lang = (db.select_user(tg_id=msg.from_user.id))['lang']
     msg_txt = msg_lang["shopping_link"][lang]
@@ -22,7 +22,7 @@ async def leave_comment(msg: types.Message):
 async def leave_comment(msg: types.Message, state: FSMContext):
     lang = db.select_user(tg_id=msg.from_user.id)
     btn = get_main_btn(lang['lang'], msg)
-    if msg.text in ("Отмена", "Bekor qilish"):
+    if msg.text in ("Отмена", "Bekor qilish", "Cancel", "取消"):
         txt = msg_lang["main_menu"][lang['lang']]
         await msg.answer(txt, reply_markup=btn)
         await state.finish()
@@ -51,7 +51,7 @@ async def leave_comment(msg: types.Message, state: FSMContext):
 async def leave_comment(msg: types.Message, state: FSMContext):
     lang = db.select_user(tg_id=msg.from_user.id)
     btn = get_main_btn(lang['lang'], msg)
-    if msg.text in ("Отмена", "Bekor qilish"):
+    if msg.text in ("Отмена", "Bekor qilish", "Cancel", "取消"):
         txt = msg_lang["main_menu"][lang['lang']]
         await msg.answer(txt, reply_markup=btn)
         await state.finish()

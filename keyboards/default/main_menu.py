@@ -12,5 +12,5 @@ def get_main_btn(lang, msg):
     res.row(KeyboardButton(text=msgs['trek_code'][lang]))
     res.row(KeyboardButton(text=msgs['my_id'][lang]), KeyboardButton(text=msgs['get_address'][lang]))
     res.row(KeyboardButton(text=msgs['settings'][lang]), KeyboardButton(text=msgs['buy_yuan'][lang]))
-    res.row(KeyboardButton(text=msgs['comments'][lang]), KeyboardButton(text="🛍 Shopping"))
+    res.row(KeyboardButton(text=msgs['comments'][lang]), KeyboardButton(text=msgs['shopping'][lang]))
     return res

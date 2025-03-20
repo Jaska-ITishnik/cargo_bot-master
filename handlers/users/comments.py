@@ -3,10 +3,10 @@ from aiogram.dispatcher import FSMContext
 
 from data.config import OPERATOR
 from data.translate import msg_lang
-from loader import dp, db, bot
-from states.leave_comment import Comment
 from keyboards.default.cancel import cancel_btn
 from keyboards.default.main_menu import get_main_btn
+from loader import dp, db, bot
+from states.leave_comment import Comment
 
 
 @dp.message_handler(lambda msg: "💬" in msg.text)
@@ -24,7 +24,7 @@ async def leave_comment(msg: types.Message):
 async def leave_comment(msg: types.Message, state: FSMContext):
     lang = db.select_user(tg_id=msg.from_user.id)
     btn = get_main_btn(lang['lang'], msg)
-    if msg.text in ("Отмена", "Bekor qilish"):
+    if msg.text in ("Отмена", "Bekor qilish", "Cancel", "取消"):
         txt = msg_lang["main_menu"][lang['lang']]
         await msg.answer(txt, reply_markup=btn)
         await state.finish()
