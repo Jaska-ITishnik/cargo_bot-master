@@ -18,9 +18,7 @@ env = Env()
 env.read_env()
 
 
-@dp.message_handler(
-    lambda x: x.text in ("🔎 Проверка трек-кода", "🔎 Trek kodini tekshirish")
-)
+@dp.message_handler(lambda x: "🔎" in x.text)
 async def trek_code(msg: types.Message):
     lang = db.select_user(tg_id=msg.from_user.id)
     trek_code = db.select_product_trek_code(user_id=lang['id'])
@@ -31,7 +29,9 @@ async def trek_code(msg: types.Message):
     await Trek_code.first()
 
 
-@dp.message_handler(lambda x: x.text in ("↩ Войти в админку", "↩ Adminkaga kirish"))
+@dp.message_handler(lambda x: x.text in (
+        "↩ Войти в админку", "↩ Adminkaga kirish",
+        "↩ Enter admin panel", "↩ 进入管理面板"))
 async def admin_panel(msg: types.Message):
     # Create an inline keyboard with a Web App URL button
     ikb = InlineKeyboardMarkup()
@@ -40,7 +40,7 @@ async def admin_panel(msg: types.Message):
     await msg.delete()
 
 
-@dp.message_handler(lambda x: x.text in ("📨 Xabar yuborish", "📨 Отправить сообщение"))
+@dp.message_handler(lambda x: x.text in ("📨 Xabar yuborish", "📨 Отправить сообщение", "📨 Send message", "📨 发送消息"))
 async def admin_send_message(msg: Message, state: FSMContext):
     if str(msg.from_user.id) in ADMINS:
         await state.set_state(AdminSendMessage.message)
@@ -74,7 +74,7 @@ async def admin_send_message_state(msg: Message, state: FSMContext):
 @dp.message_handler(state=Trek_code.code)
 async def code_ans(msg: types.Message, state=FSMContext):
     lang = db.select_user(tg_id=msg.from_user.id)
-    if msg.text in ("Отмена", "Bekor qilish"):
+    if msg.text in ("Отмена", "Bekor qilish", "Cancel", "取消"):
         txt = msg_lang["main_menu"][lang['lang']]
         btn = get_main_btn(lang['lang'], msg)
         await msg.answer(txt, reply_markup=btn)
@@ -109,7 +109,7 @@ async def code_ans(msg: types.Message, state=FSMContext):
 @dp.message_handler(state=Trek_code.deliver_type)
 async def deliver_type_ans(msg: types.Message, state=FSMContext):
     lang = db.select_user(tg_id=msg.from_user.id)
-    if msg.text in ("Забрать самому", "Borib olish"):
+    if msg.text in ("Забрать самому", "Borib olish", "Pick up myself", "自己领取"):
         txt = msg_lang["bring_deliver"][lang['lang']]
         btn = get_main_btn(lang['lang'], msg)
         await bot.send_location(

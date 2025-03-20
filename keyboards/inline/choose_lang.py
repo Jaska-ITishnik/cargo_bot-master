@@ -1,11 +1,12 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from data.config import YUAN_BOT
 from data.translate import btn_lang
 
-langs = InlineKeyboardMarkup(row_width=2)
+langs = InlineKeyboardMarkup(row_width=4)
 langs.insert(InlineKeyboardButton("🇺🇿 O'zbek tili", callback_data="lang_uz"))
 langs.insert(InlineKeyboardButton("🇷🇺 Русский язык", callback_data="lang_ru"))
+langs.insert(InlineKeyboardButton("🏴󠁧󠁢󠁥󠁮󠁧󠁿 English", callback_data="lang_en"))
+langs.insert(InlineKeyboardButton("🇨🇳 中文", callback_data="lang_zh"))
 
 
 def settings_btn(lang):
@@ -23,12 +24,13 @@ def change_lang_btn(lang):
     res = InlineKeyboardMarkup(row_width=2)
     res.insert(InlineKeyboardButton("🇺🇿 O'zbek tili", callback_data="chlang_uz"))
     res.insert(InlineKeyboardButton("🇷🇺 Русский язык", callback_data="chlang_ru"))
+    res.insert(InlineKeyboardButton("🏴󠁧󠁢󠁥󠁮󠁧󠁿 English", callback_data="chlang_en"))
+    res.insert(InlineKeyboardButton("🇨🇳 中文", callback_data="chlang_zh"))
     res.insert(
         InlineKeyboardButton(btn_lang["cancel"][lang], callback_data="chlang_cancel")
     )
 
     return res
-
 
 # def buy_yuan(lang):
 #     res = InlineKeyboardMarkup(row_width=1)

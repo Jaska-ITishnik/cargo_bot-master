@@ -60,7 +60,7 @@ async def change_phone(message: types.Message, state: FSMContext):
     await state.finish()
     phone = message.text
     lang = (db.select_user(tg_id=message.from_user.id))['lang']
-    if phone in ("Отмена", "Bekor qilish"):
+    if phone in ("Отмена", "Bekor qilish", "Cancel", "取消"):
         txt = msg_lang["main_menu"][lang]
         btn = get_main_btn(lang, message)
         await message.answer(txt, reply_markup=btn)
